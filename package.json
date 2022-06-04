@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx webpack --mode development && cp public/* dist/",
+    "dev": "npm run build && npx webpack serve --mode development",
+    "tsc": "tsc --noEmit --skipLibCheck",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@joshdschneider/formation": "^1.0.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0"
@@ -17,6 +23,14 @@
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
+    "@storybook/addon-actions": "^6.5.6",
+    "@storybook/addon-essentials": "^6.5.6",
+    "@storybook/addon-interactions": "^6.5.6",
+    "@storybook/addon-links": "^6.5.6",
+    "@storybook/builder-webpack5": "^6.5.6",
+    "@storybook/manager-webpack5": "^6.5.6",
+    "@storybook/react": "^6.5.6",
+    "@storybook/testing-library": "^0.0.11",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "babel-loader": "^8.2.5",
@@ -26,6 +40,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-storybook": "^0.5.12",
     "html-loader": "^3.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.0",
@@ -37,5 +52,17 @@
     "webpack": "^5.73.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.9.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "concurrently \"npm run tsc\""
+    }
+  },
+  "lint-staged": {
+    "**/*.+(js|jsx|ts|tsx|json|css)": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
