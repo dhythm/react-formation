@@ -1,6 +1,5 @@
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
 import { Button } from "./Button";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -9,7 +8,17 @@ export default {
   component: Button,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    // backgroundColor: { control: "color" },
+    loading: { control: "boolean" },
+    disabled: { control: "boolean" },
+    minimal: { control: "boolean" },
+    size: {
+      control: { type: "radio" },
+      options: ["small", "regular", "large"],
+    },
+    intent: {
+      control: { type: "select" },
+      options: ["default", "primary", "success", "warning", "danger"],
+    },
   },
 } as ComponentMeta<typeof Button>;
 
@@ -19,6 +28,11 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Default.args = {
-  //   primary: true,
+  ...Default.args,
   children: "Button",
+  loading: false,
+  disabled: false,
+  minimal: false,
+  size: "small",
+  intent: "default",
 };
